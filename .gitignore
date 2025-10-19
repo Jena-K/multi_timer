@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 *.so
 .Python
+*.egg-info/
+dist/
+build/
 
 # Virtual Environment
 .venv/
@@ -13,6 +16,7 @@ env/
 
 # uv
 .uv/
+uv.lock
 
 # IDE
 .vscode/
@@ -20,14 +24,35 @@ env/
 *.swp
 *.swo
 *~
+.claude/
 
 # OS
 .DS_Store
 Thumbs.db
 
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
 # Project specific
 *.log
 .env
 .env.local
-
 documents/
+
+# PyInstaller
+*.spec
+dist/
+build/
+
+# Testing and analysis
+test_*.py
+measure_*.py
+*_analysis_report.md
+*_structure.txt
+spacing_analysis_report.md
+timer_item_structure.txt
+
+# Generated files
+generate_*.py
