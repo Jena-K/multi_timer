@@ -1,0 +1,3 @@
+([('Timer For Ryu',
+   '/Users/lionrocket/projects/rowan/timer_for_ryu/dist/Timer For Ryu',
+   'EXECUTABLE')],)

@@ -1,0 +1,78 @@
+Timer Item 영역 구조
+======================
+
+[전체 아이템: TimerListItem]
+├─ 높이: 65px (고정)
+├─ 배경색: #fafafa (PANEL_BACKGROUND)
+├─ 레이아웃: HBoxLayout (수평 배치, AlignVCenter)
+│
+├─ [Area 1: Info Area] (20% 너비)
+│  ├─ 역할: 템플릿명 + 고객명 표시
+│  ├─ 레이아웃: VBoxLayout
+│  ├─ 정렬: 좌측 정렬, 수직 중앙
+│  └─ 내용:
+│     └─ info_label (QLabel)
+│        ├─ 텍스트: "{template.name} - {customer.name}"
+│        ├─ 폰트: Pretendard Bold 13px
+│        └─ 색상: #424242 (TEXT_PRIMARY)
+│
+├─ [Area 2: Controls Area] (35% 너비)
+│  ├─ 역할: 재생/일시정지/정지 버튼
+│  ├─ 레이아웃: VBoxLayout → HBoxLayout (버튼들은 수평 배치)
+│  ├─ 정렬: 중앙 정렬
+│  └─ 내용:
+│     ├─ start_btn (▶)
+│     │  ├─ 크기: 42px × 42px (아이템 높이의 65%)
+│     │  ├─ 폰트: 28px (아이템 높이의 43%)
+│     │  └─ 색상: #43a047 (녹색)
+│     ├─ pause_btn (⏸)
+│     │  ├─ 크기: 42px × 42px
+│     │  ├─ 폰트: 28px
+│     │  └─ 색상: #fb8c00 (주황색)
+│     └─ stop_btn (⏹)
+│        ├─ 크기: 42px × 42px
+│        ├─ 폰트: 28px
+│        └─ 색상: #e53935 (빨간색)
+│
+├─ [Area 3: Time Area] (35% 너비)
+│  ├─ 역할: 타이머 시간 표시
+│  ├─ 레이아웃: VBoxLayout
+│  ├─ 정렬: 중앙 정렬, 수직 중앙
+│  └─ 내용:
+│     └─ time_label (QLabel)
+│        ├─ 텍스트: "MM : SS"
+│        ├─ 폰트: Pretendard Regular 24px
+│        └─ 색상: #424242 (TEXT_PRIMARY)
+│
+└─ [Area 4: Actions Area] (10% 너비)
+   ├─ 역할: 수정/삭제 버튼
+   ├─ 레이아웃: VBoxLayout (2 rows)
+   ├─ 정렬: 우측 정렬
+   └─ 내용:
+      ├─ [Top Row]
+      │  ├─ 레이아웃: HBoxLayout
+      │  └─ edit_btn ("수정")
+      │     ├─ 크기: 36px × 20px (아이템 높이의 55% × 31%)
+      │     ├─ 폰트: Pretendard Bold 10px
+      │     ├─ 배경색: #757575 (TEXT_TERTIARY)
+      │     └─ 정렬: 수직 중앙, 수평 우측
+      │
+      └─ [Bottom Row]
+         ├─ 레이아웃: HBoxLayout
+         └─ delete_btn ("삭제")
+            ├─ 크기: 36px × 20px
+            ├─ 폰트: Pretendard Bold 10px
+            ├─ 배경색: #757575 (TEXT_TERTIARY)
+            └─ 정렬: 수직 중앙, 수평 우측
+
+
+주요 특징:
+===========
+1. 아이템 높이는 고정 (65px)
+2. 모든 내부 컴포넌트는 동적 크기 (아이템 높이에 비례)
+3. 버튼 크기:
+   - 컨트롤 버튼: 아이템 높이의 65% (42px)
+   - 액션 버튼 너비: 아이템 높이의 55% (36px)
+   - 액션 버튼 높이: 아이템 높이의 31% (20px)
+4. 모든 영역은 수직 중앙 정렬
+5. 영역별 너비 비율: 20% : 35% : 35% : 10%
