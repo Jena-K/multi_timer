@@ -42,7 +42,7 @@ Thumbs.db
 documents/
 
 # PyInstaller
-*.spec
+# *.spec
 dist/
 build/
 
