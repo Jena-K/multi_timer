@@ -39,22 +39,28 @@ def main():
 
     # Load custom fonts first
     loaded_fonts = load_fonts()
+    print(f"\n[MAIN] Loaded custom fonts: {loaded_fonts}")
 
     # Set application-wide font rendering for consistency across platforms
     # Try Pretendard first, fallback to system fonts if not available
     font_families = QFontDatabase.families()
+    print(f"[MAIN] Total system fonts available: {len(font_families)}")
 
     default_font = None
     if "Pretendard" in font_families or "Pretendard" in loaded_fonts:
         default_font = QFont("Pretendard", 11, QFont.Weight.Normal)
+        print("[MAIN] ✅ Using Pretendard font")
     else:
         # Platform-specific fallback fonts
         if sys.platform == "win32":
             default_font = QFont("Malgun Gothic", 11, QFont.Weight.Normal)
+            print("[MAIN] ⚠️  Pretendard not found, using Malgun Gothic (Windows)")
         elif sys.platform == "darwin":
             default_font = QFont("SF Pro Text", 11, QFont.Weight.Normal)
+            print("[MAIN] ⚠️  Pretendard not found, using SF Pro Text (macOS)")
         else:
             default_font = QFont("Noto Sans", 11, QFont.Weight.Normal)
+            print("[MAIN] ⚠️  Pretendard not found, using Noto Sans (Linux)")
 
     if default_font:
         # Enable font hinting for better cross-platform rendering

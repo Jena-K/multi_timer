@@ -8,8 +8,8 @@ a = Analysis(
     binaries=[],
     datas=[
         ('assets/alert.wav', 'assets'),
-        ('assets/fonts/Pretendard-Regular.otf', 'assets/fonts'),
-        ('assets/fonts/Pretendard-Bold.otf', 'assets/fonts'),
+        # Include entire fonts directory to ensure all font files are bundled
+        ('assets/fonts', 'assets/fonts'),
     ],
     hiddenimports=[
         'PySide6.QtCore',
@@ -53,6 +53,6 @@ exe = EXE(
     debug=False,
     strip=False,
     upx=False,  # PySide6 DLL 손상 방지
-    console=False,
+    console=True,  # Windows에서 폰트 로딩 디버그를 위해 콘솔 표시 (배포 시 False로 변경)
     icon='assets/dasan.ico',
 )

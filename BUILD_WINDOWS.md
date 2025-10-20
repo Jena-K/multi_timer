@@ -211,6 +211,24 @@ cd dist
 
 ## Windows 테스트 가이드
 
+### 폰트 로딩 테스트
+
+먼저 폰트가 제대로 로드되는지 확인:
+
+```powershell
+python test_font_loading.py
+```
+
+출력 예시:
+```
+[FONT] ✅ Successfully loaded: Pretendard-Regular.otf → ['Pretendard']
+[FONT] ✅ Successfully loaded: Pretendard-Bold.otf → ['Pretendard']
+```
+
+- ✅ 표시가 나오면 폰트 로딩 성공
+- ❌ 표시가 나오면 폰트 파일 경로 확인 필요
+- ⚠️  표시가 나오면 파일이 없음
+
 ### 호환성 테스트 실행
 
 ```powershell

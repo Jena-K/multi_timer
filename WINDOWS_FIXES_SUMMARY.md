@@ -135,16 +135,43 @@ QApplication.setHighDpiScaleFactorRoundingPolicy(...)
 
 ## 테스트 방법
 
-### macOS에서 테스트
+### 1. 폰트 로딩 테스트
+
+먼저 폰트가 제대로 로드되는지 확인:
+
 ```bash
-uv run python main.py
-uv run python test_windows_compatibility.py
+# macOS
+uv run python test_font_loading.py
+
+# Windows
+python test_font_loading.py
 ```
 
-### Windows에서 테스트
-```powershell
-python main.py
+정상 출력 예시:
+```
+[FONT] ✅ Successfully loaded: Pretendard-Regular.otf → ['Pretendard']
+[FONT] ✅ Successfully loaded: Pretendard-Bold.otf → ['Pretendard']
+[MAIN] ✅ Using Pretendard font
+```
+
+### 2. UI 호환성 테스트
+
+```bash
+# macOS
+uv run python test_windows_compatibility.py
+
+# Windows
 python test_windows_compatibility.py
+```
+
+### 3. 전체 앱 테스트
+
+```bash
+# macOS
+uv run python main.py
+
+# Windows
+python main.py
 ```
 
 ### 확인 사항
