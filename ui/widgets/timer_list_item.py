@@ -141,8 +141,9 @@ class TimerListItem(BaseListItem):
         btn.setFlat(True)
         btn.setAutoFillBackground(False)
 
-        # Set icon with default color
-        icon = create_svg_icon(icon_name, color, icon_size)
+        # Start with inactive (gray) color - will be updated by update_button_states()
+        inactive_color = "#9e9e9e"  # Theme.Colors.TEXT_TERTIARY
+        icon = create_svg_icon(icon_name, inactive_color, icon_size)
         btn.setIcon(icon)
         btn.setIconSize(QSize(icon_size, icon_size))
 
@@ -290,25 +291,60 @@ class TimerListItem(BaseListItem):
         self.time_label.setText(format_time_display(minutes, seconds))
 
     def update_button_states(self, status: TimerStatus):
-        """Update button enabled states based on timer status."""
+        """Update button enabled states and colors based on timer status."""
+        # Inactive color (gray)
+        inactive_color = "#9e9e9e"  # Theme.Colors.TEXT_TERTIARY
+        icon_size = 30
+
         if status == TimerStatus.STOPPED:
+            # Only start button is colored, others are gray
             self.start_btn.setEnabled(True)
+            self._update_button_icon(self.start_btn, self.start_btn.property("color_normal"))
+
             self.pause_btn.setEnabled(False)
+            self._update_button_icon(self.pause_btn, inactive_color)
+
             self.stop_btn.setEnabled(False)
+            self._update_button_icon(self.stop_btn, inactive_color)
+
             self.edit_btn.setEnabled(True)
             self.delete_btn.setEnabled(True)
+
         elif status == TimerStatus.RUNNING:
+            # Only pause and stop buttons are colored
             self.start_btn.setEnabled(False)
+            self._update_button_icon(self.start_btn, inactive_color)
+
             self.pause_btn.setEnabled(True)
+            self._update_button_icon(self.pause_btn, self.pause_btn.property("color_normal"))
+
             self.stop_btn.setEnabled(True)
+            self._update_button_icon(self.stop_btn, self.stop_btn.property("color_normal"))
+
             self.edit_btn.setEnabled(False)
             self.delete_btn.setEnabled(False)
+
         elif status == TimerStatus.PAUSED:
+            # Start and stop buttons are colored
             self.start_btn.setEnabled(True)
+            self._update_button_icon(self.start_btn, self.start_btn.property("color_normal"))
+
             self.pause_btn.setEnabled(False)
+            self._update_button_icon(self.pause_btn, inactive_color)
+
             self.stop_btn.setEnabled(True)
+            self._update_button_icon(self.stop_btn, self.stop_btn.property("color_normal"))
+
             self.edit_btn.setEnabled(False)
             self.delete_btn.setEnabled(False)
+
+    def _update_button_icon(self, btn: QPushButton, color: str):
+        """Update button icon color."""
+        if btn.property("icon_name"):
+            icon_name = btn.property("icon_name")
+            icon_size = btn.property("icon_size")
+            icon = create_svg_icon(icon_name, color, icon_size)
+            btn.setIcon(icon)
 
     def update_customer_name(self, name: str):
         """Update customer name display."""
@@ -360,6 +396,10 @@ class TimerListItem(BaseListItem):
     def eventFilter(self, obj, event):
         """Handle hover and press events for control buttons to change icon colors."""
         if isinstance(obj, QPushButton) and obj.property("icon_name"):
+            # Only apply hover effects to enabled buttons
+            if not obj.isEnabled():
+                return super().eventFilter(obj, event)
+
             icon_name = obj.property("icon_name")
             color_normal = obj.property("color_normal")
             color_hover = obj.property("color_hover")
@@ -367,7 +407,7 @@ class TimerListItem(BaseListItem):
             icon_size = obj.property("icon_size")
 
             if event.type() == QEvent.Type.Enter:
-                # Mouse entered - change to hover color
+                # Mouse entered - change to hover color (darker)
                 icon = create_svg_icon(icon_name, color_hover, icon_size)
                 obj.setIcon(icon)
             elif event.type() == QEvent.Type.Leave:
@@ -375,7 +415,7 @@ class TimerListItem(BaseListItem):
                 icon = create_svg_icon(icon_name, color_normal, icon_size)
                 obj.setIcon(icon)
             elif event.type() == QEvent.Type.MouseButtonPress:
-                # Mouse pressed - change to pressed color
+                # Mouse pressed - change to pressed color (darkest)
                 icon = create_svg_icon(icon_name, color_pressed, icon_size)
                 obj.setIcon(icon)
             elif event.type() == QEvent.Type.MouseButtonRelease:
