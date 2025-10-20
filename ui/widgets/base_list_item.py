@@ -143,8 +143,10 @@ class BaseListItem(QFrame):
         btn.setMinimumSize(button_width, button_height)
         btn.setMaximumSize(button_width, button_height)
         btn.setFont(Theme.Fonts.bold(Theme.Fonts.SIZE_SMALL))
+        btn.setFlat(True)  # Remove default button styling on Windows
         btn.setStyleSheet(f"""
             QPushButton {{
+                background: none;
                 background-color: {Theme.Colors.TEXT_TERTIARY};
                 color: {Theme.Colors.WHITE};
                 border: none;
@@ -162,6 +164,10 @@ class BaseListItem(QFrame):
             QPushButton:disabled {{
                 background-color: {Theme.Colors.BORDER};
                 color: {Theme.Colors.TEXT_TERTIARY};
+            }}
+            QPushButton:focus {{
+                outline: none;
+                border: none;
             }}
         """)
         return btn

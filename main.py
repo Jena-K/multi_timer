@@ -17,18 +17,29 @@ from ui.font_loader import load_fonts
 
 def main():
     """Main application entry point."""
-    # Enable high DPI support on Windows (with compatibility check)
+    # Enable high DPI support (with compatibility check for older PySide6 versions)
     from PySide6.QtCore import Qt
 
-    # Only set high DPI policy if available (PySide6 6.5+)
-    if hasattr(QApplication, 'setHighDpiScaleFactorRoundingPolicy'):
-        QApplication.setHighDpiScaleFactorRoundingPolicy(
-            Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
-        )
+    # Enable high DPI scaling for all platforms
+    QApplication.setHighDpiScaleFactorRoundingPolicy(
+        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+        if hasattr(Qt, 'HighDpiScaleFactorRoundingPolicy')
+        else Qt.AA_EnableHighDpiScaling
+    )
+
+    # Set additional high DPI attributes for better cross-platform compatibility
+    if hasattr(Qt, 'AA_EnableHighDpiScaling'):
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    if hasattr(Qt, 'AA_UseHighDpiPixmaps'):
+        QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
     app = QApplication(sys.argv)
     app.setApplicationName("Timer For Ryu")
     app.setOrganizationName("TimerForRyu")
+
+    # Set application-wide font rendering for consistency across platforms
+    from PySide6.QtGui import QFont
+    app.setFont(QFont("Pretendard", 11))
 
     # Load custom fonts
     load_fonts()

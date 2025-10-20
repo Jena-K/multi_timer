@@ -273,11 +273,14 @@ class Theme:
             """Main window style."""
             return f"""
                 QMainWindow {{
-                    background-color: #FAFAFA;
+                    background-color: {Theme.Colors.PANEL_BACKGROUND};
                 }}
                 QSplitter::handle {{
                     background-color: {Theme.Colors.BORDER};
                     width: 2px;
+                }}
+                QWidget {{
+                    background-color: {Theme.Colors.WHITE};
                 }}
             """
 
