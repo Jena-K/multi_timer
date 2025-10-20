@@ -45,7 +45,12 @@ class TemplatePanel(QWidget):
         # Header label
         header = QLabel("타이머 템플릿")
         header.setFont(Theme.Fonts.header())
-        header.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        header.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
         layout.addWidget(header)
 
         # Add Template button

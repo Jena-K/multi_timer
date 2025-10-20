@@ -78,7 +78,12 @@ class TimerPanel(QWidget):
         # Header label
         header = QLabel("타이머")
         header.setFont(Theme.Fonts.header())
-        header.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        header.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
         layout.addWidget(header)
 
         # List widget with drag & drop support

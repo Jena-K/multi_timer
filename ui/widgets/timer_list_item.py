@@ -68,6 +68,7 @@ class TimerListItem(BaseListItem):
         """Create Area 1: Template name (1-1) + Customer name (1-2) stacked vertically."""
         container = QWidget()
         container.setFixedHeight(self._item_height)
+        container.setStyleSheet("background-color: transparent;")
 
         layout = QVBoxLayout(container)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -76,13 +77,23 @@ class TimerListItem(BaseListItem):
         # Area 1-1: Customer name (larger, bold, primary)
         self.customer_label = QLabel(self.timer.customer_name)
         self.customer_label.setFont(Theme.Fonts.bold(Theme.Fonts.SIZE_LARGE))
-        self.customer_label.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        self.customer_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
         self.customer_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
         # Area 1-2: Template name (smaller, regular, secondary)
         self.template_label = QLabel(self.template.name)
         self.template_label.setFont(Theme.Fonts.regular(Theme.Fonts.SIZE_MEDIUM))
-        self.template_label.setStyleSheet(f"color: {Theme.Colors.TEXT_SECONDARY};")
+        self.template_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_SECONDARY};
+                background-color: transparent;
+            }}
+        """)
         self.template_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
         # Add with stretch for vertical centering (customer name first)
@@ -98,6 +109,7 @@ class TimerListItem(BaseListItem):
         container = QWidget()
         # Container takes full item height (no vertical margins)
         container.setFixedHeight(self._item_height)
+        container.setStyleSheet("background-color: transparent;")
 
         layout = QVBoxLayout(container)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -133,24 +145,24 @@ class TimerListItem(BaseListItem):
         btn.setFlat(True)  # Remove default button styling on Windows
         btn.setStyleSheet(f"""
             QPushButton {{
-                background: none;
-                background-color: {Theme.Colors.PANEL_BACKGROUND};
+                background-color: transparent;
                 color: {color};
                 border: none;
                 font-size: {font_size}px;
                 padding: 0px;
                 margin: 0px;
+                font-family: {Theme.Fonts.FAMILY_FALLBACK};
             }}
             QPushButton:hover {{
-                background-color: {Theme.Colors.PANEL_BACKGROUND};
+                background-color: transparent;
                 color: {hover};
             }}
             QPushButton:pressed {{
-                background-color: {Theme.Colors.PANEL_BACKGROUND};
+                background-color: transparent;
                 color: {pressed};
             }}
             QPushButton:disabled {{
-                background-color: {Theme.Colors.PANEL_BACKGROUND};
+                background-color: transparent;
                 color: #bdbdbd;
             }}
             QPushButton:focus {{

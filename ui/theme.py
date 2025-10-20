@@ -62,7 +62,8 @@ class Theme:
     class Fonts:
         """Font configurations."""
         FAMILY = "Pretendard"
-        FAMILY_FALLBACK = "Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif"
+        # Enhanced fallback font stack for better Windows compatibility
+        FAMILY_FALLBACK = "Pretendard, 'Malgun Gothic', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Noto Sans', sans-serif"
 
         # Font sizes
         SIZE_SMALL = 10
@@ -182,7 +183,7 @@ class Theme:
                     color: {Theme.Colors.WHITE};
                     border: none;
                     border-radius: {Theme.Spacing.RADIUS_MEDIUM}px;
-                    font-family: "{Theme.Fonts.FAMILY}";
+                    font-family: {Theme.Fonts.FAMILY_FALLBACK};
                     font-size: {Theme.Fonts.SIZE_XLARGE}px;
                     font-weight: bold;
                     padding: {Theme.Spacing.PADDING_MEDIUM}px {Theme.Spacing.PADDING_LARGE}px;
@@ -204,7 +205,7 @@ class Theme:
                     color: {Theme.Colors.TEXT_PRIMARY};
                     border: 1px solid {Theme.Colors.BORDER};
                     border-radius: {Theme.Spacing.RADIUS_SMALL}px;
-                    font-family: "{Theme.Fonts.FAMILY}";
+                    font-family: {Theme.Fonts.FAMILY_FALLBACK};
                     font-size: {Theme.Fonts.SIZE_NORMAL}px;
                     padding: {Theme.Spacing.PADDING_SMALL}px {Theme.Spacing.PADDING_MEDIUM}px;
                 }}
@@ -222,12 +223,14 @@ class Theme:
                     border: 1px solid {Theme.Colors.BORDER};
                     border-radius: {Theme.Spacing.RADIUS_SMALL}px;
                     padding: {Theme.Spacing.PADDING_SMALL}px {Theme.Spacing.PADDING_MEDIUM}px;
-                    font-family: "{Theme.Fonts.FAMILY}";
+                    font-family: {Theme.Fonts.FAMILY_FALLBACK};
                     font-size: {Theme.Fonts.SIZE_INPUT}px;
                     background-color: {Theme.Colors.WHITE};
+                    color: {Theme.Colors.TEXT_PRIMARY};
                 }}
                 QLineEdit:focus {{
                     border-color: {Theme.Colors.BORDER_FOCUS};
+                    outline: none;
                 }}
             """
 
@@ -302,7 +305,7 @@ class Theme:
                 }}
                 QLabel {{
                     color: {Theme.Colors.TEXT_PRIMARY};
-                    font-family: "{Theme.Fonts.FAMILY}";
+                    font-family: {Theme.Fonts.FAMILY_FALLBACK};
                     font-size: {Theme.Fonts.SIZE_NORMAL}px;
                 }}
                 QPushButton {{
@@ -310,7 +313,7 @@ class Theme:
                     min-height: 30px;
                     border: none;
                     border-radius: {Theme.Spacing.RADIUS_SMALL}px;
-                    font-family: "{Theme.Fonts.FAMILY}";
+                    font-family: {Theme.Fonts.FAMILY_FALLBACK};
                     font-size: {Theme.Fonts.SIZE_MEDIUM}px;
                     padding: 5px 15px;
                 }}

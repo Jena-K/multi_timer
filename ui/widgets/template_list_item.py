@@ -61,7 +61,12 @@ class TemplateListItem(BaseListItem):
         """Create Area 1: Template name."""
         self.name_label = QLabel(self.template.name)
         self.name_label.setFont(Theme.Fonts.bold(Theme.Fonts.SIZE_LARGE))
-        self.name_label.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        self.name_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
         self.name_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.name_label.setContentsMargins(0, 0, 0, 0)
         return self._create_label_area(self.name_label)
@@ -74,7 +79,12 @@ class TemplateListItem(BaseListItem):
 
         self.duration_label = QLabel(format_duration(minutes, seconds))
         self.duration_label.setFont(Theme.Fonts.item_name())
-        self.duration_label.setStyleSheet(f"color: {Theme.Colors.TEXT_SECONDARY};")
+        self.duration_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_SECONDARY};
+                background-color: transparent;
+            }}
+        """)
         self.duration_label.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
         self.duration_label.setContentsMargins(0, 0, 0, 0)
         return self._create_label_area(self.duration_label)

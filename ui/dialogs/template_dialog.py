@@ -51,7 +51,12 @@ class TemplateDialog(QDialog):
         # Template Name Row
         name_label = QLabel("템플릿 이름")
         name_label.setFont(Theme.Fonts.label())
-        name_label.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        name_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
         form_layout.addWidget(name_label, 0, 0, Qt.AlignmentFlag.AlignRight)
 
         self.name_input = QLineEdit()
@@ -66,7 +71,12 @@ class TemplateDialog(QDialog):
         # Duration Row
         duration_label = QLabel("타이머 시간")
         duration_label.setFont(Theme.Fonts.label())
-        duration_label.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        duration_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
         form_layout.addWidget(duration_label, 1, 0, Qt.AlignmentFlag.AlignRight)
 
         # Duration input layout
@@ -84,7 +94,12 @@ class TemplateDialog(QDialog):
 
         colon_label = QLabel(":")
         colon_label.setFont(Theme.Fonts.bold(16))
-        colon_label.setStyleSheet(f"color: {Theme.Colors.TEXT_PRIMARY};")
+        colon_label.setStyleSheet(f"""
+            QLabel {{
+                color: {Theme.Colors.TEXT_PRIMARY};
+                background-color: transparent;
+            }}
+        """)
 
         self.seconds_input = QLineEdit()
         self.seconds_input.setPlaceholderText("SS")
@@ -129,9 +144,13 @@ class TemplateDialog(QDialog):
                 color: {Theme.Colors.WHITE};
                 border: none;
                 border-radius: {Theme.Spacing.RADIUS_SMALL}px;
+                font-family: {Theme.Fonts.FAMILY_FALLBACK};
             }}
             QPushButton:hover {{
                 background-color: #7f8c8d;
+            }}
+            QPushButton:focus {{
+                outline: none;
             }}
         """)
         cancel_btn.clicked.connect(self.reject)
@@ -146,9 +165,13 @@ class TemplateDialog(QDialog):
                 color: {Theme.Colors.WHITE};
                 border: none;
                 border-radius: {Theme.Spacing.RADIUS_SMALL}px;
+                font-family: {Theme.Fonts.FAMILY_FALLBACK};
             }}
             QPushButton:hover {{
                 background-color: {Theme.Colors.PRIMARY_HOVER};
+            }}
+            QPushButton:focus {{
+                outline: none;
             }}
         """)
         save_btn.clicked.connect(self._on_save)

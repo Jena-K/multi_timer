@@ -19,13 +19,13 @@ def main():
     """Main application entry point."""
     # Enable high DPI support (with compatibility check for older PySide6 versions)
     from PySide6.QtCore import Qt
+    from PySide6.QtGui import QFont, QFontDatabase
 
     # Enable high DPI scaling for all platforms
-    QApplication.setHighDpiScaleFactorRoundingPolicy(
-        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
-        if hasattr(Qt, 'HighDpiScaleFactorRoundingPolicy')
-        else Qt.AA_EnableHighDpiScaling
-    )
+    if hasattr(Qt, 'HighDpiScaleFactorRoundingPolicy'):
+        QApplication.setHighDpiScaleFactorRoundingPolicy(
+            Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+        )
 
     # Set additional high DPI attributes for better cross-platform compatibility
     if hasattr(Qt, 'AA_EnableHighDpiScaling'):
@@ -37,12 +37,20 @@ def main():
     app.setApplicationName("Timer For Ryu")
     app.setOrganizationName("TimerForRyu")
 
-    # Set application-wide font rendering for consistency across platforms
-    from PySide6.QtGui import QFont
-    app.setFont(QFont("Pretendard", 11))
-
-    # Load custom fonts
+    # Load custom fonts first
     load_fonts()
+
+    # Set application-wide font rendering for consistency across platforms
+    # Try Pretendard first, fallback to system fonts if not available
+    font_families = QFontDatabase.families()
+    if "Pretendard" in font_families:
+        app.setFont(QFont("Pretendard", 11))
+    else:
+        # Windows fallback fonts
+        if sys.platform == "win32":
+            app.setFont(QFont("Malgun Gothic", 11))
+        else:
+            app.setFont(QFont("system-ui", 11))
 
     window = MainWindow()
     window.show()
