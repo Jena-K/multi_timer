@@ -6,13 +6,12 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel,
-    QLineEdit, QPushButton, QMessageBox, QGridLayout
-)
-from PySide6.QtCore import Qt
 from datetime import timedelta
 from typing import Optional
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QDialog, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMessageBox, QPushButton, QVBoxLayout
+
 from models.template import TimerTemplate
 from ui.theme import Theme
 

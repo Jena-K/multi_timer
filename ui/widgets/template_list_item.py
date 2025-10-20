@@ -6,8 +6,9 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+
 from models.template import TimerTemplate
 from ui.theme import Theme
 from ui.widgets.base_list_item import BaseListItem, format_duration

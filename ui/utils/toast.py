@@ -6,8 +6,9 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QLabel, QGraphicsOpacityEffect
-from PySide6.QtCore import QTimer, QPropertyAnimation, QEasingCurve, Qt
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QTimer
+from PySide6.QtWidgets import QGraphicsOpacityEffect, QLabel
+
 from ui.theme import Theme
 
 

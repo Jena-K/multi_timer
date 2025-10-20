@@ -6,11 +6,11 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QPushButton, QLabel, QListWidget, QListWidgetItem
-)
-from PySide6.QtCore import Signal
 from typing import List
+
+from PySide6.QtCore import Signal
+from PySide6.QtWidgets import QLabel, QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QWidget
+
 from models.template import TimerTemplate
 from ui.containers.template_item import TemplateItem
 from ui.theme import Theme

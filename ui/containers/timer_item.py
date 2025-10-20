@@ -6,12 +6,14 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtCore import Signal, QTimer
-from PySide6.QtWidgets import QWidget, QVBoxLayout
 from datetime import timedelta
-from models.timer import TimerInstance
-from models.template import TimerTemplate
+
+from PySide6.QtCore import QTimer, Signal
+from PySide6.QtWidgets import QVBoxLayout, QWidget
+
 from models.enums import TimerStatus
+from models.template import TimerTemplate
+from models.timer import TimerInstance
 from ui.widgets.timer_list_item import TimerListItem
 
 

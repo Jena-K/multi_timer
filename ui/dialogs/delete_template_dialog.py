@@ -6,11 +6,11 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QWidget
-)
-from PySide6.QtCore import Qt
 from typing import List
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+
 from models.template import TimerTemplate
 from models.timer import TimerInstance
 from ui.theme import Theme

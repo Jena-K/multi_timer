@@ -6,11 +6,12 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame
 from PySide6.QtCore import Qt, Signal
-from models.timer import TimerInstance
-from models.template import TimerTemplate
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+
 from models.enums import TimerStatus
+from models.template import TimerTemplate
+from models.timer import TimerInstance
 from ui.theme import Theme
 from ui.widgets.base_list_item import BaseListItem, format_time_display
 

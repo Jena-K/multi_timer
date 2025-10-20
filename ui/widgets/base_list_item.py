@@ -6,8 +6,9 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QFrame, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+
 from ui.theme import Theme
 
 

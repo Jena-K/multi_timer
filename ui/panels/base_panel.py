@@ -6,9 +6,11 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QListWidgetItem
+from typing import Generic, List, TypeVar
+
 from PySide6.QtCore import Signal
-from typing import List, Generic, TypeVar
+from PySide6.QtWidgets import QLabel, QListWidget, QListWidgetItem, QVBoxLayout, QWidget
+
 from ui.theme import Theme
 
 T = TypeVar('T')  # Widget type (TemplateItem or TimerItem)

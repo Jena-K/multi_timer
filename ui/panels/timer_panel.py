@@ -6,14 +6,16 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QListWidgetItem
-from PySide6.QtCore import Signal, QTimer, QUrl
-from PySide6.QtMultimedia import QSoundEffect
-from typing import List
 from pathlib import Path
-from models.timer import TimerInstance
-from models.template import TimerTemplate
+from typing import List
+
+from PySide6.QtCore import QTimer, QUrl, Signal
+from PySide6.QtMultimedia import QSoundEffect
+from PySide6.QtWidgets import QLabel, QListWidget, QListWidgetItem, QVBoxLayout, QWidget
+
 from models.enums import TimerStatus
+from models.template import TimerTemplate
+from models.timer import TimerInstance
 from ui.containers.timer_item import TimerItem
 from ui.theme import Theme
 

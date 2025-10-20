@@ -6,7 +6,8 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtWidgets import QDialog, QPushButton, QHBoxLayout, QMessageBox, QGridLayout
+from PySide6.QtWidgets import QDialog, QGridLayout, QHBoxLayout, QMessageBox, QPushButton
+
 from ui.theme import Theme
 
 

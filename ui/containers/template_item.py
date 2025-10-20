@@ -6,8 +6,9 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtCore import Signal, Qt
-from PySide6.QtWidgets import QWidget, QVBoxLayout
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QVBoxLayout, QWidget
+
 from models.template import TimerTemplate
 from ui.widgets.template_list_item import TemplateListItem
 
