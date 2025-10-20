@@ -130,21 +130,32 @@ class TimerListItem(BaseListItem):
 
         btn.setMinimumSize(button_size, button_size)
         btn.setMaximumSize(button_size, button_size)
+        btn.setFlat(True)  # Remove default button styling on Windows
         btn.setStyleSheet(f"""
             QPushButton {{
-                background-color: transparent;
+                background: none;
+                background-color: {Theme.Colors.PANEL_BACKGROUND};
                 color: {color};
                 border: none;
                 font-size: {font_size}px;
+                padding: 0px;
+                margin: 0px;
             }}
             QPushButton:hover {{
+                background-color: {Theme.Colors.PANEL_BACKGROUND};
                 color: {hover};
             }}
             QPushButton:pressed {{
+                background-color: {Theme.Colors.PANEL_BACKGROUND};
                 color: {pressed};
             }}
             QPushButton:disabled {{
+                background-color: {Theme.Colors.PANEL_BACKGROUND};
                 color: #bdbdbd;
+            }}
+            QPushButton:focus {{
+                outline: none;
+                border: none;
             }}
         """)
         return btn
