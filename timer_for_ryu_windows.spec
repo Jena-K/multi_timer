@@ -1,8 +1,28 @@
 # -*- mode: python ; coding: utf-8 -*-
 import sys
 import os
+from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
 block_cipher = None
+
+# PySide6 경로 및 바이너리 찾기
+def get_pyside6_info():
+    """PySide6 설치 경로 및 바이너리 반환"""
+    try:
+        import PySide6
+        pyside6_path = os.path.dirname(PySide6.__file__)
+
+        # PySide6 바이너리 수집
+        binaries = []
+        for item in os.listdir(pyside6_path):
+            item_path = os.path.join(pyside6_path, item)
+            if item.endswith(('.dll', '.pyd', '.so', '.dylib')):
+                binaries.append((item_path, 'PySide6'))
+
+        return pyside6_path, binaries
+    except Exception as e:
+        print(f"PySide6 not found: {e}")
+        return None, []
 
 # Windows에서 PySide6 플러그인 경로 찾기
 def get_pyside6_plugins():
@@ -28,24 +48,26 @@ def get_pyside6_plugins():
     except:
         return []
 
+pyside6_path, pyside6_binaries = get_pyside6_info()
+pathex_list = [pyside6_path] if pyside6_path else []
+
+# PySide6 필수 모듈 수집
+pyside6_modules = collect_submodules('PySide6.QtCore')
+pyside6_modules += collect_submodules('PySide6.QtWidgets')
+pyside6_modules += collect_submodules('PySide6.QtGui')
+pyside6_modules += collect_submodules('PySide6.QtMultimedia')
+pyside6_datas = collect_data_files('PySide6')
+
 a = Analysis(
     ['main.py'],
-    pathex=[],
-    binaries=[],
+    pathex=pathex_list,
+    binaries=pyside6_binaries,
     datas=[
         ('assets/alert.wav', 'assets'),
         ('assets/fonts/Pretendard-Regular.otf', 'assets/fonts'),
         ('assets/fonts/Pretendard-Bold.otf', 'assets/fonts'),
-    ] + get_pyside6_plugins(),  # Qt 플랫폼 플러그인 추가
-    hiddenimports=[
-        # PySide6 필수 모듈 (ui 폴더 전체에서 사용)
-        'PySide6.QtCore',        # Signal, QTimer, QUrl, Qt 등
-        'PySide6.QtWidgets',     # QWidget, QVBoxLayout, QLabel, QListWidget 등
-        'PySide6.QtGui',         # QFont, QFontDatabase 등
-        'PySide6.QtMultimedia',  # QSoundEffect (타이머 알림음)
-        # Windows에서 필요한 내부 모듈
-        'shiboken6',  # PySide6 C++ 바인딩 필수
-    ],
+    ] + get_pyside6_plugins() + pyside6_datas,
+    hiddenimports=pyside6_modules + ['shiboken6'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
