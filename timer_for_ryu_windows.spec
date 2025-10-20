@@ -31,7 +31,7 @@ a = Analysis(
         'PySide6.QtQuick',
         'PySide6.QtQuick3D',
         'PySide6.QtSql',
-        'PySide6.QtNetwork',
+        # QtNetwork removed from excludes - required by QSoundEffect/QMultimedia
         'PySide6.QtOpenGL',
         'PySide6.QtWebEngine',
         'PySide6.QtWebEngineWidgets',
