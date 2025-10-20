@@ -18,8 +18,9 @@ from ui.font_loader import load_fonts
 def main():
     """Main application entry point."""
     # Enable high DPI support on Windows
+    from PySide6.QtCore import Qt
     QApplication.setHighDpiScaleFactorRoundingPolicy(
-        QApplication.HighDpiScaleFactorRoundingPolicy.PassThrough
+        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     )
 
     app = QApplication(sys.argv)
