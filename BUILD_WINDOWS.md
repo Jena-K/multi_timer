@@ -1,5 +1,48 @@
 # Windows .exe 빌드 가이드
 
+## 🔧 크로스 플랫폼 렌더링 수정사항
+
+### 해결된 문제들
+
+1. **폰트 렌더링 문제**
+   - Pretendard 폰트가 Windows에서 제대로 로드되지 않음
+   - Pretendard 사용 불가시 Malgun Gothic으로 폴백
+   - 폰트 힌팅 및 안티앨리어싱 설정 추가
+
+2. **버튼 스타일 문제**
+   - Windows가 플랫폼별 기본 버튼 스타일 적용
+   - 배경색과 테두리가 올바르게 렌더링되지 않음
+   - `setFlat(False)` 및 `setAutoFillBackground(False)` 사용으로 해결
+
+3. **High DPI 스케일링**
+   - DPI 속성을 QApplication 생성 **전**에 설정해야 함
+   - Windows 디스플레이에 대한 적절한 스케일링 설정
+
+### 기술적 변경사항
+
+#### 1. main.py
+- DPI 속성 설정을 QApplication 생성 전으로 이동
+- 폰트 로딩 폴백 체인 강화:
+  - Primary: Pretendard (커스텀 폰트)
+  - Windows: Malgun Gothic
+  - macOS: SF Pro Text
+  - Linux: Noto Sans
+- 폰트 힌팅 및 안티앨리어싱 설정 추가
+- 전역 스타일시트에 font-family 폴백 적용
+
+#### 2. ui/widgets/base_list_item.py
+- 액션 버튼에 `setFlat(True)`를 `setFlat(False)`로 변경
+- 올바른 렌더링을 위해 `setAutoFillBackground(False)` 추가
+- 스타일시트에 명시적인 font-size 및 font-weight 추가
+
+#### 3. ui/widgets/timer_list_item.py
+- 컨트롤 버튼(재생/일시정지/정지)에 동일한 버튼 수정사항 적용
+- 플랫폼 간 일관된 렌더링 보장
+
+#### 4. ui/theme.py
+- 모든 버튼 타입에 `:focus` 가상 클래스 스타일 추가
+- Windows에서 일관된 포커스 동작 보장
+
 ## 🚨 중요: ModuleNotFoundError 'PySide6' 해결
 
 PySide6를 사용하는 경우 반드시 `--collect-all PySide6` 옵션을 추가하세요!
@@ -166,6 +209,51 @@ cd dist
 - `--upx-exclude` 옵션 추가 또는
 - .spec 파일에서 `upx=False`로 설정
 
+## Windows 테스트 가이드
+
+### 호환성 테스트 실행
+
+```powershell
+python test_windows_compatibility.py
+```
+
+테스트 창에서 확인할 사항:
+- [ ] Pretendard 폰트가 올바르게 로드됨 (콘솔 출력 확인)
+- [ ] Pretendard 실패 시 Malgun Gothic 폴백 사용
+- [ ] Primary 버튼("+ 템플릿 추가")이 녹색 배경으로 표시
+- [ ] 액션 버튼("수정", "삭제")이 회색 배경으로 표시
+- [ ] 컨트롤 버튼(▶ ⏸ ⏹)이 올바른 색상으로 표시
+- [ ] 한글 텍스트가 모든 UI 요소에서 올바르게 표시
+- [ ] 버튼 호버 상태가 정상 작동
+- [ ] High DPI 디스플레이에서 올바르게 렌더링
+
+### 근본 원인 요약
+
+#### 폰트 문제
+**근본 원인**: 폰트 로딩이 QApplication 생성 후에 발생하며, Windows가 더 엄격한 폰트 렌더링 요구사항을 가짐
+
+**해결책**:
+- QApplication 직후 즉시 폰트 로딩
+- 폰트 힌팅 설정 명시적으로 지정
+- 포괄적인 폴백 체인 제공
+- 일관된 font-family를 위한 전역 스타일시트 적용
+
+#### 버튼 스타일 문제
+**근본 원인**: Windows Qt 프레임워크가 CSS 스타일의 스타일시트를 무시하는 플랫폼별 네이티브 버튼 스타일 적용
+
+**해결책**:
+- 네이티브 스타일 방지를 위해 `setFlat(False)` 사용
+- 스타일시트 배경 허용을 위해 `setAutoFillBackground(False)` 사용
+- 스타일시트에 모든 폰트 속성을 명시적으로 지정 (family, size, weight)
+- 일관된 상태 유지를 위해 `:focus` 가상 클래스 추가
+
+#### High DPI 문제
+**근본 원인**: QApplication 생성 후 설정된 DPI 속성이 Windows에서 제대로 적용되지 않음
+
+**해결책**:
+- QApplication 생성 **전**에 모든 DPI 속성 설정
+- 더 나은 렌더링을 위해 `setHintingPreference` 및 `setStyleStrategy` 사용
+
 ## 빌드 성공 체크리스트
 
 - [ ] Timer For Ryu.exe 프로세스 종료
@@ -175,3 +263,6 @@ cd dist
 - [ ] 빌드 명령 실행
 - [ ] dist 폴더에서 .exe 파일 확인
 - [ ] .exe 실행 테스트
+- [ ] 호환성 테스트 스크립트 실행
+- [ ] 폰트 렌더링 확인
+- [ ] 버튼 스타일 확인

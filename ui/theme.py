@@ -194,6 +194,10 @@ class Theme:
                 QPushButton:pressed {{
                     background-color: {Theme.Colors.PRIMARY_PRESSED};
                 }}
+                QPushButton:focus {{
+                    outline: none;
+                    border: none;
+                }}
             """
 
         @staticmethod
@@ -212,6 +216,10 @@ class Theme:
                 QPushButton:hover {{
                     background-color: {Theme.Colors.BACKGROUND};
                     border-color: {Theme.Colors.BORDER_HOVER};
+                }}
+                QPushButton:focus {{
+                    outline: none;
+                    border: 1px solid {Theme.Colors.BORDER};
                 }}
             """
 

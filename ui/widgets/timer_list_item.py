@@ -136,7 +136,11 @@ class TimerListItem(BaseListItem):
 
         btn.setMinimumSize(button_size, button_size)
         btn.setMaximumSize(button_size, button_size)
-        btn.setFlat(True)  # Remove default button styling on Windows
+
+        # Critical for Windows: setFlat(False) and setAutoFillBackground(False)
+        btn.setFlat(False)
+        btn.setAutoFillBackground(False)
+
         btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: transparent;
