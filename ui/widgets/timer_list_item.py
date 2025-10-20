@@ -113,9 +113,13 @@ class TimerListItem(BaseListItem):
         controls_layout.setSpacing(0)
         controls_layout.addStretch()
 
-        self.start_btn = self._create_control_button("▶", "#43a047", "#2e7d32", "#1b5e20")
-        self.pause_btn = self._create_control_button("⏸", "#fb8c00", "#f57c00", "#e65100")
-        self.stop_btn = self._create_control_button("⏹", "#e53935", "#c62828", "#b71c1c")
+        # Use more compatible Unicode symbols
+        # ▶ (U+25B6) → ▸ (U+25B8) or ► (U+25BA)
+        # ⏸ (U+23F8) → ❚❚ (U+275A) or ǁ (U+01C1)
+        # ⏹ (U+23F9) → ■ (U+25A0)
+        self.start_btn = self._create_control_button("►", "#43a047", "#2e7d32", "#1b5e20")
+        self.pause_btn = self._create_control_button("❚❚", "#fb8c00", "#f57c00", "#e65100")
+        self.stop_btn = self._create_control_button("■", "#e53935", "#c62828", "#b71c1c")
 
         controls_layout.addWidget(self.start_btn)
         controls_layout.addWidget(self.pause_btn)
@@ -137,14 +141,17 @@ class TimerListItem(BaseListItem):
         btn.setMinimumSize(button_size, button_size)
         btn.setMaximumSize(button_size, button_size)
 
-        # Critical for Windows: setFlat(False) and setAutoFillBackground(False)
-        btn.setFlat(False)
+        # For transparent buttons, keep setFlat(True) but add explicit Windows overrides
+        btn.setFlat(True)
         btn.setAutoFillBackground(False)
 
+        # Add all pseudo-states explicitly to override Windows native styling
         btn.setStyleSheet(f"""
             QPushButton {{
+                background: transparent;
                 background-color: transparent;
                 color: {color};
+                border: 0px;
                 border: none;
                 font-size: {font_size}px;
                 padding: 0px;
@@ -152,19 +159,37 @@ class TimerListItem(BaseListItem):
                 font-family: {Theme.Fonts.FAMILY_FALLBACK};
             }}
             QPushButton:hover {{
+                background: transparent;
                 background-color: transparent;
                 color: {hover};
+                border: 0px;
+                border: none;
             }}
             QPushButton:pressed {{
+                background: transparent;
                 background-color: transparent;
                 color: {pressed};
+                border: 0px;
+                border: none;
             }}
             QPushButton:disabled {{
+                background: transparent;
                 background-color: transparent;
                 color: #bdbdbd;
+                border: 0px;
+                border: none;
             }}
             QPushButton:focus {{
+                background: transparent;
+                background-color: transparent;
                 outline: none;
+                border: 0px;
+                border: none;
+            }}
+            QPushButton:default {{
+                background: transparent;
+                background-color: transparent;
+                border: 0px;
                 border: none;
             }}
         """)
