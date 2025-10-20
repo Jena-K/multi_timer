@@ -68,7 +68,6 @@ class BaseListItem(QFrame):
         container = QWidget()
         # Container takes full item height (no vertical margins)
         container.setFixedHeight(self._item_height)
-        container.setStyleSheet("background-color: transparent;")
 
         layout = QVBoxLayout(container)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -92,7 +91,6 @@ class BaseListItem(QFrame):
         area4 = QWidget()
         # Container takes full item height (no vertical margins)
         area4.setFixedHeight(self._item_height)
-        area4.setStyleSheet("background-color: transparent;")
 
         layout = QVBoxLayout(area4)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -101,7 +99,6 @@ class BaseListItem(QFrame):
         # area4_1 - Top area for edit button (fixed 20px height)
         area4_1 = QWidget()
         area4_1.setFixedHeight(20)
-        area4_1.setStyleSheet("background-color: transparent;")
         area4_1_layout = QHBoxLayout(area4_1)
         area4_1_layout.setContentsMargins(0, 0, 0, 0)
         area4_1_layout.setSpacing(0)
@@ -112,7 +109,6 @@ class BaseListItem(QFrame):
         # area4_2 - Bottom area for delete button (fixed 20px height)
         area4_2 = QWidget()
         area4_2.setFixedHeight(20)
-        area4_2.setStyleSheet("background-color: transparent;")
         area4_2_layout = QHBoxLayout(area4_2)
         area4_2_layout.setContentsMargins(0, 0, 0, 0)
         area4_2_layout.setSpacing(0)
