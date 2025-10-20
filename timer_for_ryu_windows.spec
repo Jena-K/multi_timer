@@ -26,6 +26,7 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=[
+        # Exclude unnecessary PySide6 modules
         'PySide6.QtQml',
         'PySide6.QtQuick',
         'PySide6.QtQuick3D',
@@ -34,10 +35,47 @@ a = Analysis(
         'PySide6.QtOpenGL',
         'PySide6.QtWebEngine',
         'PySide6.QtWebEngineWidgets',
+        'PySide6.QtBluetooth',
+        'PySide6.QtDBus',
+        'PySide6.QtDesigner',
+        'PySide6.QtHelp',
+        'PySide6.QtLocation',
+        'PySide6.QtNfc',
+        'PySide6.QtPositioning',
+        'PySide6.QtPrintSupport',
+        'PySide6.QtRemoteObjects',
+        'PySide6.QtScxml',
+        'PySide6.QtSensors',
+        'PySide6.QtSerialPort',
+        'PySide6.QtTest',
+        'PySide6.QtTextToSpeech',
+        'PySide6.QtWebChannel',
+        'PySide6.QtWebSockets',
+        'PySide6.Qt3DAnimation',
+        'PySide6.Qt3DCore',
+        'PySide6.Qt3DExtras',
+        'PySide6.Qt3DInput',
+        'PySide6.Qt3DLogic',
+        'PySide6.Qt3DRender',
+        # Exclude scientific packages
         'matplotlib',
         'numpy',
         'scipy',
         'pandas',
+        'IPython',
+        'jupyter',
+        'notebook',
+        # Exclude development tools
+        'pytest',
+        'unittest',
+        'doctest',
+        'pdb',
+        'pydoc',
+        # Exclude other heavy packages
+        'tkinter',
+        'PIL.ImageQt',
+        'setuptools',
+        'distutils',
     ],
     cipher=block_cipher,
     noarchive=False,
@@ -54,8 +92,16 @@ exe = EXE(
     [],
     name='Timer For Ryu',
     debug=False,
-    strip=False,
-    upx=False,  # PySide6 DLL 손상 방지
+    strip=True,  # Strip symbols to reduce size
+    upx=True,  # Enable UPX compression
+    upx_exclude=[
+        # Exclude problematic DLLs from UPX compression
+        'Qt6Core.dll',
+        'Qt6Gui.dll',
+        'Qt6Widgets.dll',
+        'Qt6Multimedia.dll',
+        'Qt6Svg.dll',
+    ],
     console=True,  # Windows에서 폰트 로딩 디버그를 위해 콘솔 표시 (배포 시 False로 변경)
     icon='assets/dasan.ico',
 )
