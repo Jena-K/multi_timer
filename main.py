@@ -17,11 +17,14 @@ from ui.font_loader import load_fonts
 
 def main():
     """Main application entry point."""
-    # Enable high DPI support on Windows
+    # Enable high DPI support on Windows (with compatibility check)
     from PySide6.QtCore import Qt
-    QApplication.setHighDpiScaleFactorRoundingPolicy(
-        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
-    )
+
+    # Only set high DPI policy if available (PySide6 6.5+)
+    if hasattr(QApplication, 'setHighDpiScaleFactorRoundingPolicy'):
+        QApplication.setHighDpiScaleFactorRoundingPolicy(
+            Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+        )
 
     app = QApplication(sys.argv)
     app.setApplicationName("Timer For Ryu")
