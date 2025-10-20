@@ -6,7 +6,7 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QSize, QEvent
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
 from models.enums import TimerStatus
@@ -14,6 +14,7 @@ from models.template import TimerTemplate
 from models.timer import TimerInstance
 from ui.theme import Theme
 from ui.widgets.base_list_item import BaseListItem, format_time_display
+from ui.utils.icon_loader import create_svg_icon
 
 
 class TimerListItem(BaseListItem):
@@ -113,13 +114,10 @@ class TimerListItem(BaseListItem):
         controls_layout.setSpacing(0)
         controls_layout.addStretch()
 
-        # Use more compatible Unicode symbols
-        # ▶ (U+25B6) → ▸ (U+25B8) or ► (U+25BA)
-        # ⏸ (U+23F8) → ❚❚ (U+275A) or ǁ (U+01C1)
-        # ⏹ (U+23F9) → ■ (U+25A0)
-        self.start_btn = self._create_control_button("►", "#43a047", "#2e7d32", "#1b5e20")
-        self.pause_btn = self._create_control_button("❚❚", "#fb8c00", "#f57c00", "#e65100")
-        self.stop_btn = self._create_control_button("■", "#e53935", "#c62828", "#b71c1c")
+        # Use SVG icons for perfect cross-platform consistency
+        self.start_btn = self._create_control_button_with_icon("play.svg", "#43a047", "#2e7d32", "#1b5e20")
+        self.pause_btn = self._create_control_button_with_icon("pause.svg", "#fb8c00", "#f57c00", "#e65100")
+        self.stop_btn = self._create_control_button_with_icon("stop.svg", "#e53935", "#c62828", "#b71c1c")
 
         controls_layout.addWidget(self.start_btn)
         controls_layout.addWidget(self.pause_btn)
@@ -131,6 +129,76 @@ class TimerListItem(BaseListItem):
         layout.addLayout(controls_layout)
         layout.addStretch()
         return container
+
+    def _create_control_button_with_icon(self, icon_name: str, color: str, hover: str, pressed: str) -> QPushButton:
+        """Create a control button with SVG icon for cross-platform consistency."""
+        btn = QPushButton()
+        button_size = 50
+        icon_size = 30  # 60% of button size
+
+        btn.setMinimumSize(button_size, button_size)
+        btn.setMaximumSize(button_size, button_size)
+        btn.setFlat(True)
+        btn.setAutoFillBackground(False)
+
+        # Set icon with default color
+        icon = create_svg_icon(icon_name, color, icon_size)
+        btn.setIcon(icon)
+        btn.setIconSize(QSize(icon_size, icon_size))
+
+        # Store colors and icon name for hover/pressed states
+        btn.setProperty("icon_name", icon_name)
+        btn.setProperty("color_normal", color)
+        btn.setProperty("color_hover", hover)
+        btn.setProperty("color_pressed", pressed)
+        btn.setProperty("icon_size", icon_size)
+
+        # Install event filter to handle hover/pressed icon color changes
+        btn.installEventFilter(self)
+
+        # Transparent background, no borders
+        btn.setStyleSheet(f"""
+            QPushButton {{
+                background: transparent;
+                background-color: transparent;
+                border: 0px;
+                border: none;
+                padding: 0px;
+                margin: 0px;
+            }}
+            QPushButton:hover {{
+                background: transparent;
+                background-color: transparent;
+                border: 0px;
+                border: none;
+            }}
+            QPushButton:pressed {{
+                background: transparent;
+                background-color: transparent;
+                border: 0px;
+                border: none;
+            }}
+            QPushButton:disabled {{
+                background: transparent;
+                background-color: transparent;
+                border: 0px;
+                border: none;
+            }}
+            QPushButton:focus {{
+                background: transparent;
+                background-color: transparent;
+                outline: none;
+                border: 0px;
+                border: none;
+            }}
+            QPushButton:default {{
+                background: transparent;
+                background-color: transparent;
+                border: 0px;
+                border: none;
+            }}
+        """)
+        return btn
 
     def _create_control_button(self, symbol: str, color: str, hover: str, pressed: str) -> QPushButton:
         """Create a control button with fixed 50px size."""
@@ -288,6 +356,37 @@ class TimerListItem(BaseListItem):
             """)
 
         print(f"[DEBUG] Border updated for show_border={show_border}")
+
+    def eventFilter(self, obj, event):
+        """Handle hover and press events for control buttons to change icon colors."""
+        if isinstance(obj, QPushButton) and obj.property("icon_name"):
+            icon_name = obj.property("icon_name")
+            color_normal = obj.property("color_normal")
+            color_hover = obj.property("color_hover")
+            color_pressed = obj.property("color_pressed")
+            icon_size = obj.property("icon_size")
+
+            if event.type() == QEvent.Type.Enter:
+                # Mouse entered - change to hover color
+                icon = create_svg_icon(icon_name, color_hover, icon_size)
+                obj.setIcon(icon)
+            elif event.type() == QEvent.Type.Leave:
+                # Mouse left - change back to normal color
+                icon = create_svg_icon(icon_name, color_normal, icon_size)
+                obj.setIcon(icon)
+            elif event.type() == QEvent.Type.MouseButtonPress:
+                # Mouse pressed - change to pressed color
+                icon = create_svg_icon(icon_name, color_pressed, icon_size)
+                obj.setIcon(icon)
+            elif event.type() == QEvent.Type.MouseButtonRelease:
+                # Check if mouse is still over button
+                if obj.underMouse():
+                    icon = create_svg_icon(icon_name, color_hover, icon_size)
+                else:
+                    icon = create_svg_icon(icon_name, color_normal, icon_size)
+                obj.setIcon(icon)
+
+        return super().eventFilter(obj, event)
 
     def mousePressEvent(self, event):
         """Handle mouse press event."""

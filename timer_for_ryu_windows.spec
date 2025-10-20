@@ -10,12 +10,15 @@ a = Analysis(
         ('assets/alert.wav', 'assets'),
         # Include entire fonts directory to ensure all font files are bundled
         ('assets/fonts', 'assets/fonts'),
+        # Include SVG icons for control buttons
+        ('assets/icons', 'assets/icons'),
     ],
     hiddenimports=[
         'PySide6.QtCore',
         'PySide6.QtWidgets',
         'PySide6.QtGui',
         'PySide6.QtMultimedia',
+        'PySide6.QtSvg',  # For SVG icon rendering
         # Ensure platform plugins are included
         'PySide6.QtPlatform',
     ],
