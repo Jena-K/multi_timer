@@ -6,6 +6,7 @@ Author: rowan@lionrocket.ai
 Created: 2025-10-19
 Last Modified: 2025-10-19
 """
+import sys
 from pathlib import Path
 from typing import List
 
@@ -58,10 +59,28 @@ class TimerPanel(QWidget):
             QSoundEffect: Configured sound effect
         """
         sound_effect = QSoundEffect()
-        sound_path = Path(__file__).parent.parent.parent / "assets" / self.SOUND_FILE
+
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        if getattr(sys, 'frozen', False):
+            # Running in a PyInstaller bundle
+            base_path = Path(sys._MEIPASS)
+            print(f"[SOUND] Running in PyInstaller bundle, base_path: {base_path}")
+        else:
+            # Running in normal Python environment
+            base_path = Path(__file__).parent.parent.parent
+            print(f"[SOUND] Running in development mode, base_path: {base_path}")
+
+        sound_path = base_path / "assets" / self.SOUND_FILE
+        print(f"[SOUND] Sound file path: {sound_path}")
+        print(f"[SOUND] Sound file exists: {sound_path.exists()}")
+
         if sound_path.exists():
             sound_effect.setSource(QUrl.fromLocalFile(str(sound_path)))
             sound_effect.setVolume(self.ALERT_VOLUME)
+            print(f"[SOUND] ✅ Sound effect initialized")
+        else:
+            print(f"[SOUND] ⚠️  Sound file not found: {sound_path}")
+
         return sound_effect
 
     def _init_ui(self):
