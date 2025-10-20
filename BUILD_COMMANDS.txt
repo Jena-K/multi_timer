@@ -1,0 +1,133 @@
+===========================================
+Windows에서 Timer For Ryu.exe 빌드하기
+(uv 가상환경 사용)
+===========================================
+
+📋 1단계: 프로젝트 폴더로 이동
+-----------------------------------------
+cd C:\Users\YourName\timer_for_ryu
+
+
+📦 2단계: 필수 패키지 설치 (uv 사용)
+-----------------------------------------
+uv pip install pyinstaller pillow
+
+
+🎨 3단계: 아이콘 생성 (선택사항)
+-----------------------------------------
+uv run python convert_icon.py
+
+
+🔨 4단계: .exe 파일 빌드 (가장 간단한 방법)
+-----------------------------------------
+uv run pyinstaller --clean --noconfirm timer_for_ryu_windows.spec
+
+
+✅ 5단계: 빌드 결과 확인
+-----------------------------------------
+dir dist
+
+
+🚀 6단계: 실행 테스트
+-----------------------------------------
+cd dist
+"Timer For Ryu.exe"
+
+
+===========================================
+대체 방법: Python 스크립트로 빌드
+===========================================
+
+uv run python build_windows.py
+
+
+===========================================
+대체 방법: 수동 명령어로 빌드
+===========================================
+
+PowerShell에서:
+---------------
+uv run pyinstaller --onefile --windowed --name "Timer For Ryu" `
+  --add-data "assets\alert.wav;assets" `
+  --add-data "assets\fonts;assets\fonts" `
+  --hidden-import PySide6.QtCore `
+  --hidden-import PySide6.QtWidgets `
+  --hidden-import PySide6.QtGui `
+  --hidden-import PySide6.QtMultimedia `
+  --collect-all PySide6 `
+  --icon="assets\dasan.ico" `
+  main.py
+
+
+CMD에서:
+--------
+uv run pyinstaller --onefile --windowed --name "Timer For Ryu" ^
+  --add-data "assets\alert.wav;assets" ^
+  --add-data "assets\fonts;assets\fonts" ^
+  --hidden-import PySide6.QtCore ^
+  --hidden-import PySide6.QtWidgets ^
+  --hidden-import PySide6.QtGui ^
+  --hidden-import PySide6.QtMultimedia ^
+  --collect-all PySide6 ^
+  --icon="assets\dasan.ico" ^
+  main.py
+
+
+===========================================
+문제 해결: PermissionError 발생 시
+===========================================
+
+1. 실행 중인 프로세스 종료:
+   taskkill /F /IM "Timer For Ryu.exe"
+
+2. 이전 빌드 파일 삭제:
+   rmdir /S /Q dist
+   rmdir /S /Q build
+
+3. 다시 빌드:
+   uv run pyinstaller --clean --noconfirm timer_for_ryu_windows.spec
+
+
+===========================================
+문제 해결: uv가 인식 안 될 때
+===========================================
+
+1. uv 설치 (Windows PowerShell):
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+2. uv 버전 확인:
+   uv --version
+
+3. Python 버전 확인:
+   uv run python --version
+
+
+===========================================
+권장 빌드 순서 (한 줄씩 복사해서 실행)
+===========================================
+
+cd C:\Users\YourName\timer_for_ryu
+uv pip install pyinstaller pillow
+uv run python convert_icon.py
+uv run pyinstaller --clean --noconfirm timer_for_ryu_windows.spec
+dir dist
+cd dist
+"Timer For Ryu.exe"
+
+
+===========================================
+추가 정보: uv 사용 시 주의사항
+===========================================
+
+✅ PySide6는 이미 pyproject.toml에 포함되어 있으므로 별도 설치 불필요
+
+✅ uv sync 명령으로 모든 의존성을 자동 설치할 수 있습니다:
+   uv sync
+
+✅ uv를 사용하면 자동으로 .venv 가상환경에서 실행됩니다
+
+✅ 가장 간단한 전체 명령어 (의존성 자동 설치 포함):
+   cd C:\Users\YourName\timer_for_ryu
+   uv sync
+   uv run python convert_icon.py
+   uv run pyinstaller --clean --noconfirm timer_for_ryu_windows.spec

@@ -5,7 +5,11 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('assets/alert.wav', 'assets')],
+    datas=[
+        ('assets/alert.wav', 'assets'),
+        ('assets/fonts/Pretendard-Regular.otf', 'assets/fonts'),
+        ('assets/fonts/Pretendard-Bold.otf', 'assets/fonts'),
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
