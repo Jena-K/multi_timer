@@ -29,7 +29,17 @@ def load_fonts():
     Returns:
         list: List of loaded font family names
     """
-    font_dir = Path(__file__).parent.parent / "assets" / "fonts"
+    import sys
+
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+    if getattr(sys, 'frozen', False):
+        # Running in a PyInstaller bundle
+        base_path = Path(sys._MEIPASS)
+    else:
+        # Running in normal Python environment
+        base_path = Path(__file__).parent.parent
+
+    font_dir = base_path / "assets" / "fonts"
 
     fonts_to_load = [
         "Pretendard-Regular.otf",
