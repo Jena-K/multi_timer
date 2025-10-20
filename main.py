@@ -10,9 +10,27 @@ Usage:
     uv run python main.py
 """
 import sys
-from PySide6.QtWidgets import QApplication
+import traceback
+from PySide6.QtWidgets import QApplication, QMessageBox
 from ui.main_window import MainWindow
 from ui.font_loader import load_fonts
+
+
+def exception_hook(exctype, value, tb):
+    """Global exception handler for better error reporting."""
+    error_msg = ''.join(traceback.format_exception(exctype, value, tb))
+    print(f"\n{'='*60}\nUNHANDLED EXCEPTION:\n{'='*60}\n{error_msg}")
+
+    # Show error dialog if QApplication exists
+    if QApplication.instance():
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Critical)
+        msg_box.setWindowTitle("Error")
+        msg_box.setText("An error occurred:")
+        msg_box.setDetailedText(error_msg)
+        msg_box.exec()
+
+    sys.__excepthook__(exctype, value, tb)
 
 
 def main():
@@ -83,4 +101,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Install global exception handler
+    sys.excepthook = exception_hook
+
+    try:
+        main()
+    except Exception as e:
+        print(f"\n{'='*60}\nFATAL ERROR:\n{'='*60}")
+        traceback.print_exc()
+        input("\nPress Enter to exit...")

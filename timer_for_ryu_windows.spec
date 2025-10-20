@@ -102,6 +102,7 @@ exe = EXE(
         'Qt6Multimedia.dll',
         'Qt6Svg.dll',
     ],
-    console=True,  # Windows에서 폰트 로딩 디버그를 위해 콘솔 표시 (배포 시 False로 변경)
+    console=True,  # Keep console visible for debugging
     icon='assets/dasan.ico',
+    bootloader_ignore_signals=False,  # Better error reporting
 )
